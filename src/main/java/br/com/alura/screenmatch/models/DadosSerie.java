@@ -1,9 +1,14 @@
 package br.com.alura.screenmatch.models;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-//Mapeamento do Json para classe
+//Mapeamento as propriedades da classe para campos JSON
 
+//Serialização é a conversão de objetos java para json
+//Dessesialização é a conversão de json para objetos java
+
+@JsonIgnoreProperties(ignoreUnknown = true) //Ignora os objetos json que não foram mapeados
 public record DadosSerie(@JsonAlias("Title") String title,
                          @JsonAlias("Year") String year,
                          @JsonAlias("Released") String released,
