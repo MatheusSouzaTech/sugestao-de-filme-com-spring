@@ -7,6 +7,7 @@ import br.com.alura.screenmatch.service.ConsumoAPI;
 import br.com.alura.screenmatch.service.ConvertDados;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -50,6 +51,20 @@ public class Principal {
         //Quando você tem um paramentro e uma função com esse parametro podemos ultilizar os 4 pontinhos
         temporadas.forEach(System.out::println);
 
+        // temporadas((parametros) -> expressao); cada um dos parametro implementados  são a representação de um episodio
+
+
+        //Mexendo com streams
+
+       /* //Streams: Streams em Java são uma forma de processar coleções de dados de maneira declarativa e funcional.
+        List<String> nomes = Arrays.asList("Matheus", "Rodrigo","Fernando", "Paulo");
+
+        nomes.stream()
+                .sorted() //gera um novo fluxo de dados onde eu posso realizar uma nova ação em cima deste fluxo (operação intermediaria)
+                .limit(3) //realizando uma operação sobre a outra
+                .filter(n -> n.startsWith("P"))
+                .map(String::toUpperCase)
+                .forEach(System.out::println); //operação final*/
 
 
     }
