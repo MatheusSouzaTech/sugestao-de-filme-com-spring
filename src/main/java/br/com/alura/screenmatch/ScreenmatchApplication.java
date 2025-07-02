@@ -1,17 +1,9 @@
 package br.com.alura.screenmatch;
 
-import br.com.alura.screenmatch.models.DadosEpisodio;
-import br.com.alura.screenmatch.models.DadosSerie;
-import br.com.alura.screenmatch.models.DadosTemporada;
-import br.com.alura.screenmatch.service.ConsumoAPI;
-import br.com.alura.screenmatch.service.ConvertDados;
+import br.com.alura.screenmatch.principal.Principal;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import javax.sound.sampled.LineListener;
-import java.util.ArrayList;
-import java.util.List;
 
 @SpringBootApplication
 public class ScreenmatchApplication implements CommandLineRunner { //Permite a criação de linhas de comando dentro do metodo main
@@ -22,12 +14,17 @@ public class ScreenmatchApplication implements CommandLineRunner { //Permite a c
 
 	@Override
 	public void run(String... args) throws Exception {
-		var consumo = new ConsumoAPI();
+
+		Principal principal = new Principal();
+		principal.exibeMenu();
+
+
+		/*var consumo = new ConsumoAPI();
 		var json = consumo.obterDados("https://www.omdbapi.com/?t=suits&apikey=e1a1dcbe");
 		var jsonEp = consumo.obterDados("https://www.omdbapi.com/?t=gilmore+girls&season=1&episode=2&apikey=e1a1dcbe");
 
-		/*System.out.println(json);
-		json = consumo.obterDados("https://coffee.alexflipnote.dev/random.json");*/
+		*//**//*System.out.println(json);
+		json = consumo.obterDados("https://coffee.alexflipnote.dev/random.json");*//**//*
 		System.out.println("\n" + json + "\n");
 
 		//Estrutura de modelagem de dados
@@ -39,7 +36,7 @@ public class ScreenmatchApplication implements CommandLineRunner { //Permite a c
 		//Aplicando o generics na classe de dados do episodio
 		DadosEpisodio dadosEpisodio = conversor.obterDados(jsonEp, DadosEpisodio.class);
 
-		System.out.println(dadosEpisodio + "\n");
+		System.out.println(dadosEpisodio + "\n");*//*
 
 		List<DadosTemporada> temporadas = new ArrayList<>();
 
@@ -49,7 +46,7 @@ public class ScreenmatchApplication implements CommandLineRunner { //Permite a c
 			temporadas.add(dadosTemporada);
 		}
 
-		temporadas.forEach(System.out::println);
+		temporadas.forEach(System.out::println);*/
 
 	}
 }
