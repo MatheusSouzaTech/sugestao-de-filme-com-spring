@@ -18,7 +18,6 @@ public class ScreenmatchApplication implements CommandLineRunner { //Permite a c
 		Principal principal = new Principal();
 		principal.exibeMenu();
 
-
 		/*var consumo = new ConsumoAPI();
 		var json = consumo.obterDados("https://www.omdbapi.com/?t=suits&apikey=e1a1dcbe");
 		var jsonEp = consumo.obterDados("https://www.omdbapi.com/?t=gilmore+girls&season=1&episode=2&apikey=e1a1dcbe");

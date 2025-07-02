@@ -1,5 +1,6 @@
 package br.com.alura.screenmatch.principal;
 
+import br.com.alura.screenmatch.models.DadosEpisodio;
 import br.com.alura.screenmatch.models.DadosSerie;
 import br.com.alura.screenmatch.models.DadosTemporada;
 import br.com.alura.screenmatch.service.ConsumoAPI;
@@ -35,6 +36,22 @@ public class Principal {
         }
 
         temporadas.forEach(System.out::println);
+
+        /*for(int i = 0;i< dados.totalSeasons(); i++){ //Usando a matrix bidimensional para coletar e armazenar todos os episodios das temporadas
+            List<DadosEpisodio> episodiosTemporada = temporadas.get(i).episodios(); //Armazenando os episodios dentro de uma lista
+            for (int j = 0; j<episodiosTemporada.size();j++){
+                System.out.println(episodiosTemporada.get(j).titulo()); //Exibir os dados dos episodios
+            }
+        }*/
+
+        //lambdas trabalhando com coleções se ultilizam parametros para acessar e manipular os dados das coleções
+        temporadas.forEach(t -> t.episodios().forEach(e -> System.out.println(e.titulo()))); //simplificando o array bidimensional
+
+        //Quando você tem um paramentro e uma função com esse parametro podemos ultilizar os 4 pontinhos
+        temporadas.forEach(System.out::println);
+
+
+
     }
 
 
