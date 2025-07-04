@@ -3,13 +3,15 @@ package br.com.alura.screenmatch.principal;
 import br.com.alura.screenmatch.models.DadosEpisodio;
 import br.com.alura.screenmatch.models.DadosSerie;
 import br.com.alura.screenmatch.models.DadosTemporada;
+import br.com.alura.screenmatch.models.Episodio;
 import br.com.alura.screenmatch.service.ConsumoAPI;
 import br.com.alura.screenmatch.service.ConvertDados;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Principal {
 
@@ -65,6 +67,26 @@ public class Principal {
                 .filter(n -> n.startsWith("P"))
                 .map(String::toUpperCase)
                 .forEach(System.out::println); //operação final*/
+
+        List<DadosEpisodio> dadosEpisodios = temporadas.stream()
+                .flatMap(t -> t.episodios().stream())
+                .collect(Collectors.toList()); // Permite que você modifique essa lista, caso não precise use o tolist
+
+        System.out.println("\nTop 5 melhores episodios: ");
+        dadosEpisodios.stream()
+                .filter(e -> !e.avaliacao().equalsIgnoreCase("N/A"))
+                        .sorted(Comparator.comparing(DadosEpisodio::avaliacao).reversed())
+                                .limit(5)
+                                        .forEach(System.out::println);
+
+        dadosEpisodios.forEach(System.out::println);
+
+        List<Episodio> episodios = temporadas.stream()
+                .flatMap(t -> t.episodios().stream()
+                        .map(d -> new Episodio(t.temporada(),d))).collect(Collectors.toList());
+
+        episodios.forEach(System.out::println);
+
 
 
     }
