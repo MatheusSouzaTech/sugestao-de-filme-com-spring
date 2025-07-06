@@ -7,10 +7,9 @@ import br.com.alura.screenmatch.models.Episodio;
 import br.com.alura.screenmatch.service.ConsumoAPI;
 import br.com.alura.screenmatch.service.ConvertDados;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Principal {
@@ -72,12 +71,17 @@ public class Principal {
                 .flatMap(t -> t.episodios().stream())
                 .collect(Collectors.toList()); // Permite que você modifique essa lista, caso não precise use o tolist
 
-        System.out.println("\nTop 5 melhores episodios: ");
+        System.out.println("\nTop 10 melhores episodios: ");
         dadosEpisodios.stream()
                 .filter(e -> !e.avaliacao().equalsIgnoreCase("N/A"))
-                        .sorted(Comparator.comparing(DadosEpisodio::avaliacao).reversed())
-                                .limit(5)
-                                        .forEach(System.out::println);
+                .peek(e -> System.out.println("Primeiro filtro(N/A)" + e)) //.peek() permite "espiar" os elementos de um stream enquanto ele é processado, sem modificar os elementos.
+                .sorted(Comparator.comparing(DadosEpisodio::avaliacao).reversed())
+                .peek(e -> System.out.println("Ordenação" + e))
+                .limit(10)
+                .peek(e -> System.out.println("Definição do limite de resposta" + e))
+                .map(e -> e.titulo().toUpperCase())
+                .peek(e -> System.out.println("Mapeamento " + e))
+                .forEach(System.out::println);
 
         dadosEpisodios.forEach(System.out::println);
 
@@ -87,7 +91,40 @@ public class Principal {
 
         episodios.forEach(System.out::println);
 
+        System.out.println("A partir de que ano você deseja ver os episodios? ");
+        var ano = sc.nextInt();
+        sc.nextLine();
 
+        LocalDate dataBusca = LocalDate.of(ano,1,1);
+
+
+        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        episodios.stream()
+                .filter(e -> e.getDataLancamento() != null && e.getDataLancamento().isAfter(dataBusca))
+                .forEach(e -> System.out.println(
+                        "Temporada: " + e.getTemporada() +
+                                " Episodio: " + e.getTitulo() +
+                                " Data lançamento: " + e.getDataLancamento().format(formatador)
+                ));
+
+        System.out.println("Digite um trecho do titulo do episodio: ");
+
+        var trechoTitulo = sc.nextLine();
+
+        // é um objeto container que pode ou não conter um valor não nulo
+        Optional<Episodio> episodioBuscado = episodios.stream()
+                .filter(e -> e.getTitulo().toUpperCase().contains(trechoTitulo.toUpperCase()))
+                .findFirst(); //Encontra a primeira referencia que esteja buscando
+
+        if (episodioBuscado.isPresent())//isPresente verifica que se o valor é existente
+        {
+            System.out.println("Episodio Encontrado!");
+            System.out.println("Temporada: " + episodioBuscado.get());
+        }
+        else {
+            System.out.println("Episodio não encontrado!");
+        }
 
     }
 
