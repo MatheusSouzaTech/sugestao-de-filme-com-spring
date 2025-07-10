@@ -135,5 +135,44 @@ public class Principal {
                 ));
 
         System.out.println(avaliacoesPorTemporada);                   // imprime o resultado
+
+        DoubleSummaryStatistics est = episodios.stream()
+                .filter(e -> e.getAvaliacao() > 0.0)
+                .collect(Collectors.summarizingDouble(Episodio::getAvaliacao));
+
+        System.out.println("STATICS: " + est);
+
+        System.out.println("Deseja filtrar episodios por avaliação minima? 1-Sim 2-Não");
+
+        int escolha = sc.nextInt();
+
+        if(escolha == 1){
+
+            System.out.println("Qual a avaliação minima para se pesquisada: ");
+            double avaliacao = sc.nextDouble();
+
+            List<Episodio> buscarPorAvaliacao = episodios.stream()
+                    .filter(e -> e.getAvaliacao() >= avaliacao)
+                    .collect(Collectors.toList());
+
+            System.out.println(buscarPorAvaliacao);
+
+        }
+
+        System.out.println("Digite o ano para a media das avaliações: ");
+        int anoBusca = sc.nextInt();
+        sc.nextLine();
+
+        Map<Integer, Double> avaliacoesPorAno = episodios.stream()
+                .filter(e -> e.getDataLancamento() != null && e.getDataLancamento().getYear() == anoBusca)
+                .collect(Collectors.groupingBy(
+                        Episodio::getTemporada,                               // chave: temporada
+                        Collectors.averagingDouble(Episodio::getAvaliacao)    // valor: média das notas
+                ));
+
+        avaliacoesPorAno.forEach((temporada, media) ->
+                System.out.printf("Temporada %d: %.2f%n", temporada, media)
+        );
+
     }
 }
